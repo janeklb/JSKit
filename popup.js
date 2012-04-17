@@ -1,25 +1,32 @@
-
-var _scripts = {
-	jquery: {
-		src: "http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js",
-		version: "1.7.2"
+$(function() {
+	
+	var _scripts = {};
+	$.getJSON('scripts.json', function(scripts) { _scripts = scripts; });
+	
+	function load_script(script_name) {
+		var script = _scripts[script_name];
+		if (script) {
+			
+			// process any dependencies
+			if (script.dependencies) {
+				$(script.dependencies).each(function(i, dependency_name) {
+					load_script(dependency_name);
+				});
+			}
+			
+			// attach this script to the open tab
+			chrome.tabs.getSelected(null, function(tab) {
+				chrome.tabs.sendRequest(tab.id, {
+					action: "attachScript",
+					params: script
+				});
+			});
+		}
 	}
-};
 
-
-function load_script() {
-
-	var script_name = document.querySelector('#script_name').value;
-	var script = _scripts[script_name];
-	if (!script)
-		return;
-
-	chrome.tabs.getSelected(null, function(tab) {
-		chrome.tabs.sendRequest(tab.id, {action: "attachScript", params: script});
+	// attach listeners
+	$("#load_button").click(function() {
+		var script_name = document.querySelector('#script_name').value;
+		load_script(script_name);
 	});
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-	document.querySelector('#load_button').addEventListener('click', load_script);
 });
-

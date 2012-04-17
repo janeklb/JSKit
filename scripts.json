@@ -1,0 +1,48 @@
+{
+	"jquery": {
+		"label": "jQuery",
+		"src": "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js",
+		"version": "1.7.2"
+	},
+	"jquery-ui": {
+		"label": "jQuery UI",
+		"src": "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js",
+		"version": "1.8.18",
+		"dependencies": ["jquery"]
+	},
+	"dojo": {
+		"label": "Dojo",
+		"src": "https://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/dojo.js",
+		"version": "1.7.2"
+	},
+	"ext-core": {
+		"label": "Ext Core",
+		"src": "https://ajax.googleapis.com/ajax/libs/ext-core/3.1.0/ext-core.js",
+		"version": "3.1.0"
+	},
+	"mootools": {
+		"label": "MooTools",
+		"src": "https://ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js",
+		"version": "1.4.5"
+	},
+	"prototype": {
+		"label": "Prototype",
+		"src": "https://ajax.googleapis.com/ajax/libs/prototype/1.7.0.0/prototype.js",
+		"version": "1.7.0.0"
+	},
+	"scriptaculous": {
+		"label": "script.aculo.us",
+		"src": "https://ajax.googleapis.com/ajax/libs/scriptaculous/1.9.0/scriptaculous.js",
+		"version": "1.9.0"
+	},
+	"swfobject": {
+		"label": "SWFObject",
+		"src": "https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js",
+		"version": "2.2"
+	},
+	"webfontloader": {
+		"label": "Web Font Loader",
+		"src": "https://ajax.googleapis.com/ajax/libs/webfont/1.0.26/webfont.js",
+		"version": "1.0.26"
+	}
+}

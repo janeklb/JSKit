@@ -1,5 +1,17 @@
 
 var API = {
+		
+	_log: function() {
+		if (typeof console != 'undefined') {
+			
+			var logEntry = ["JSKit"];
+			for (var i = 0, l = arguments.length; i < l; i++)
+				logEntry.push(arguments[i]);
+			
+			console.log.apply(console, logEntry);
+		}
+	},
+	
 	_onRequest: function(action, params, sendResponse) {
 		if (typeof action == 'string' 
 				&& typeof this[action] == 'function') {
@@ -8,7 +20,6 @@ var API = {
 	},
 
 	attachScript: function(script, callback) {
-		
 		var target = document.getElementsByTagName('head');
 		if (target.length == 0)
 			target = document.getElementsByTagName('body');
@@ -19,11 +30,9 @@ var API = {
 		scriptEl.type = 'text/javascript';
 		scriptEl.src = script.src;
 		scriptEl.onload = function() {
-			console.log(this);
+			API._log("loaded", script.label, script.version, script.src);
 		};
 		target[0].appendChild(scriptEl);
-
-		console.log("attached", script);
 	}
 };
 
