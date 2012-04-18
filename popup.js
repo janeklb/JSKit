@@ -1,6 +1,35 @@
 $(function() {
 	
-	var Script = Backbone.Model.extend();
+	var Script = Backbone.Model.extend({
+		isLoaded: false,
+		isLoadedDev: false,
+		load: function(loadDev) {
+			
+			if (this.isLoaded)
+				return;
+			
+			var m = this;
+			
+			// process any dependencies
+			if (m.attributes.dependencies && m.collection) {
+				var collection = m.collection;
+				_(m.attributes.dependencies).each(function(dependency) {
+					collection.get(dependency).load();
+				});
+			}
+			
+			// attach this script to the open tab
+			chrome.tabs.getSelected(null, function(tab) {
+				chrome.tabs.sendRequest(tab.id, {
+					action: "attachScript",
+					params: loadDev ? m.attributes.src_dev : m.attributes.src
+				}, function() {
+					m.isLoaded = true;
+					m.trigger('loaded');
+				});
+			});
+		}
+	});
 	var Scripts = Backbone.Collection.extend({
 		model: Script,
 		url: 'scripts.json',
@@ -28,41 +57,25 @@ $(function() {
 		render: function() {
 			this.$el.empty();
 			
-			this.$el.append(this.make('span', {}, this.model.get('label')));
-			this.$el.append(this.make('a', {'class': 'load f-r'}, 'Load'));
+			var label = this.make('span', {title: 'version:' + this.model.get('version')}, this.model.get('label'));
+			this.$el.append(label);
 			
-			if (this.model.get('src_dev'))
-				this.$el.append(this.make('a', {'class': 'loadDev f-r'}, 'Load Dev'));
+			if (!this.model.isLoaded) {
+				this.$el.append(this.make('a', {'class': 'load f-r'}, 'Load'));
+				
+				if (this.model.get('src_dev'))
+					this.$el.append(this.make('a', {'class': 'loadDev f-r'}, 'Load Dev'));
+			} else {
+				label.appendChild(this.make('img', {src: 'checkmark.gif'}));
+			}
 			
 			return this;
 		},
-		
 		load: function() {
-			
-			// process any dependencies
-			var m = this.model;
-				attributes = m.attributes;
-			if (attributes.dependencies) {
-				var collection = m.collection;
-				_(attributes.dependencies).each(function(dependency) {
-					console.log(collection.get(dependency));
-//					collection.get(dependency).load();
-				});
-			}
-			
-			// attach this script to the open tab
-			chrome.tabs.getSelected(null, function(tab) {
-				chrome.tabs.sendRequest(tab.id, {
-					action: "attachScript",
-					params: attributes
-				}, function() {
-					m.trigger('loaded');
-				});
-			});
+			this.model.load(false);
 		},
-		
 		loadDev: function() {
-			
+			this.model.load(true);
 		}
 	});
 	

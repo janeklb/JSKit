@@ -19,7 +19,7 @@ var API = {
 		}
 	},
 
-	attachScript: function(script, callback) {
+	attachScript: function(scriptSrc, notifyLoaded) {
 		var target = document.getElementsByTagName('head');
 		if (target.length == 0)
 			target = document.getElementsByTagName('body');
@@ -28,9 +28,10 @@ var API = {
 
 		var scriptEl = document.createElement('script');
 		scriptEl.type = 'text/javascript';
-		scriptEl.src = script.src;
+		scriptEl.src = scriptSrc;
 		scriptEl.onload = function() {
-			API._log("loaded", script.label, script.version, script.src);
+			API._log("loaded", scriptSrc);
+			notifyLoaded();
 		};
 		target[0].appendChild(scriptEl);
 	}

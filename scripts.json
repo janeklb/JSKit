@@ -39,7 +39,8 @@
 	"scriptaculous": {
 		"label": "script.aculo.us",
 		"src": "https://ajax.googleapis.com/ajax/libs/scriptaculous/1.9.0/scriptaculous.js",
-		"version": "1.9.0"
+		"version": "1.9.0",
+		"dependencies": ["prototype"]
 	},
 	"swfobject": {
 		"label": "SWFObject",
