@@ -1,6 +1,6 @@
 {
 	"name": "Chrome JSKit",
-	"version": "0.1",
+	"version": "0.2",
 	"description": "Load common JavaScript libraries into any page",
 	"permissions": ["tabs"],
 	"content_scripts": [

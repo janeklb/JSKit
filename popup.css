@@ -1,0 +1,15 @@
+body { font-size: 0.8em; font-family: monospace; }
+
+ul { padding-left: 16px; width: 200px; }
+li a { margin: 0 4px;}
+li a.load, li a.loadDev { cursor: pointer; color: #552211; }
+
+.f-l { float: left; }
+.f-r { float: right; }
+
+/* For modern browsers */
+.cf:before,
+.cf:after { content:""; display:table; }
+.cf:after { clear:both; }
+/* For IE 6/7 (trigger hasLayout) */
+.cf { zoom:1; }

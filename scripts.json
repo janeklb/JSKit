@@ -1,4 +1,10 @@
 {
+	"backbone": {
+		"label": "Backbone.js",
+		"src": "http://documentcloud.github.com/backbone/backbone-min.js",
+		"version": "_latest",
+		"dependencies": ["underscore"]
+	},
 	"jquery": {
 		"label": "jQuery",
 		"src": "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js",
@@ -39,6 +45,11 @@
 		"label": "SWFObject",
 		"src": "https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js",
 		"version": "2.2"
+	},
+	"underscore": {
+		"label": "Underscore.js",
+		"src": "http://documentcloud.github.com/underscore/underscore-min.js",
+		"version": "latest"
 	},
 	"webfontloader": {
 		"label": "Web Font Loader",
