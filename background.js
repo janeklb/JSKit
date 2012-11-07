@@ -13,11 +13,6 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 			sendResponse(scriptCollections[tabId]);
 		}
 	} else if (request.action == "setScripts") {
-		if (typeof scriptCollections[tabId] == "undefined") {
-			throw new Error("Unable to update script for an undefined collection");
-		}
-
-		console.log("setting scripts", request.scripts);
 		scriptCollections[tabId] = new Scripts(request.scripts, {tabId: tabId});
 	}
 });

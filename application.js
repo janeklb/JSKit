@@ -1,25 +1,22 @@
 var Script = Backbone.Model.extend({
 	load: function(loadDev) {
-		
-		if (this.get('isLoaded'))
-			return;
-		
-		var m = this;
-		
+
+		if (this.get('isLoaded')) return;
+
+		var model = this,
+			collection = this.collection;
+
 		// process any dependencies
-		if (m.attributes.dependencies && m.collection) {
-			var collection = m.collection;
-			_(m.attributes.dependencies).each(function(dependency) {
-				collection.get(dependency).load();
-			});
-		}
-		
+		_(this.get('dependencies')).each(function(dependency) {
+			collection.get(dependency).load();
+		});
+
 		// attach this script to the open tab
-		chrome.tabs.sendRequest(m.get('tabId'), {
+		chrome.tabs.sendRequest(model.get('tabId'), {
 			action: "attachScript",
-			params: loadDev ? m.attributes.src_dev : m.attributes.src
+			params: loadDev ? model.attributes.src_dev : model.attributes.src
 		}, function() {
-			m.set('isLoaded', true);
+			model.set('isLoaded', true);
 		});
 	}
 });
