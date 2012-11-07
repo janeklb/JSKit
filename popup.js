@@ -1,58 +1,16 @@
 $(function() {
 	
-	var Script = Backbone.Model.extend({
-		isLoaded: false,
-		isLoadedDev: false,
-		load: function(loadDev) {
-			
-			if (this.isLoaded)
-				return;
-			
-			var m = this;
-			
-			// process any dependencies
-			if (m.attributes.dependencies && m.collection) {
-				var collection = m.collection;
-				_(m.attributes.dependencies).each(function(dependency) {
-					collection.get(dependency).load();
-				});
-			}
-			
-			// attach this script to the open tab
-			chrome.tabs.getSelected(null, function(tab) {
-				chrome.tabs.sendRequest(tab.id, {
-					action: "attachScript",
-					params: loadDev ? m.attributes.src_dev : m.attributes.src
-				}, function() {
-					m.isLoaded = true;
-					m.trigger('loaded');
-				});
-			});
-		}
-	});
-	var Scripts = Backbone.Collection.extend({
-		model: Script,
-		url: 'scripts.json',
-		parse: function(response) {
-			var scripts = [], scriptData;
-			for (var id in response) {
-				scriptData = response[id];
-				scriptData.id = id;
-				scripts.push(scriptData);
-			}
-			return scripts;
-		}
-	});
-	
 	var ScriptView = Backbone.View.extend({
 		tagName: 'li',
 		className: 'script',
 		events: {
-			'click a.load': 'load',
-			'click a.loadDev': 'loadDev'
+			// bind load buttons
+			'click a.load': function() { this.model.load(false); },
+			'click a.loadDev': function() { this.model.load(true); }
 		},
 		initialize: function() {
-			this.model.on('loaded', this.render, this);
+			// refresh on loaded events
+			this.model.on('change:isLoaded', this.render, this);
 		},
 		render: function() {
 			this.$el.empty();
@@ -60,49 +18,52 @@ $(function() {
 			var label = this.make('span', {title: 'version:' + this.model.get('version')}, this.model.get('label'));
 			this.$el.append(label);
 			
-			if (!this.model.isLoaded) {
+			if (this.model.get('isLoaded')) {
+				label.appendChild(this.make('img', {src: 'checkmark.gif'}));
+			} else {
 				this.$el.append(this.make('a', {'class': 'load f-r'}, 'Load'));
 				
 				if (this.model.get('src_dev'))
 					this.$el.append(this.make('a', {'class': 'loadDev f-r'}, 'Load Dev'));
-			} else {
-				label.appendChild(this.make('img', {src: 'checkmark.gif'}));
 			}
 			
 			return this;
-		},
-		load: function() {
-			this.model.load(false);
-		},
-		loadDev: function() {
-			this.model.load(true);
 		}
 	});
 	
 	var ScriptsView = Backbone.View.extend({
 		initialize: function() {
-			this.scripts = new Scripts();
-			this.scripts.on('reset', this.render, this);
-			this.scripts.fetch();
+
+			var that = this;
+			
+			chrome.tabs.getSelected(null, function(tab) {
+				chrome.extension.sendRequest({
+					action: "getScripts",
+					tab: tab
+				},
+				function(scripts) {
+					that.scripts = new Scripts(scripts, {tabId: tab.id});
+					that.scripts.on("change:isLoaded", function() {
+						chrome.extension.sendRequest({
+							action: "setScripts",
+							tab: tab,
+							scripts: scripts
+						});
+					});
+					that.render();
+				});
+			});
 		},
 		
 		render: function() {
-			var $el = this.$el;
-			$el.empty();
+			var el = this.el;
+			this.$el.empty();
 			this.scripts.each(function(script) {
-				$el.append(new ScriptView({model: script}).render().el);
+				el.appendChild(new ScriptView({model: script}).render().el);
 			});
 			return this;
 		}
 	});
 	
-	
-	
-	var scriptsView = new ScriptsView({el: $('#scripts_list')});
-	
-	/*
-	$("#load_button").click(function() {
-		scriptsView.scripts.fetch();
-	});
-	*/
+	new ScriptsView({el: $('#scripts_list')});
 });

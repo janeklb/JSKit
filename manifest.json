@@ -3,6 +3,9 @@
 	"version": "0.2.1",
 	"description": "Load common JavaScript libraries into any page",
 	"permissions": ["tabs"],
+	"background": {
+		"scripts": ["vendors/jquery.min.js", "vendors/underscore-min.js", "vendors/backbone-min.js", "application.js", "background.js"]
+	},
 	"content_scripts": [
 		{
 			"matches": ["http://*/*"],

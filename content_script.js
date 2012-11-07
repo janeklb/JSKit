@@ -1,15 +1,11 @@
-
 var API = {
 		
 	_log: function() {
-		if (typeof console != 'undefined') {
-			
-			var logEntry = ["JSKit"];
-			for (var i = 0, l = arguments.length; i < l; i++)
-				logEntry.push(arguments[i]);
-			
-			console.log.apply(console, logEntry);
-		}
+		var logEntry = ["JSKit"];
+		for (var i = 0, l = arguments.length; i < l; i++)
+			logEntry.push(arguments[i]);
+
+		console.log.apply(console, logEntry);
 	},
 	
 	_onRequest: function(action, params, sendResponse) {
