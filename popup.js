@@ -4,12 +4,50 @@ $(function() {
         events: {
             "keyup": function() {
                 var val = this.$el.val().toLowerCase();
-                console.log('keyup triggered', val == '');
-                this.options.collection.each(function(model) {
+                this.options.scripts.each(function(model) {
                     var show = val == '' || model.get('label').toLowerCase().indexOf(val) != -1;
                     model.trigger('show', show);
                 });
             }
+        }
+    });
+
+    var CustomScript = Backbone.View.extend({
+        events: {
+            'click a.add': function() {
+                this.$('.add-form').show();
+                return false;
+            },
+            'submit form': function(evt) {
+
+                var src = this.$('input[name=src]').val(),
+                    lastSlash = src.lastIndexOf('/'),
+                    label = lastSlash == -1 ? src : src.substring(lastSlash + 1),
+                    script = new Script({ src: src, label: label });
+
+                this.options.scripts.add(script);
+
+                if (this.$('input[name=autoload]').is(':checked')) {
+                    script.load();
+                }
+
+                evt.target.reset();
+                this.$('.add-form').hide();
+                return false;
+            }
+        },
+        render: function() {
+
+            var template = '\
+<a href="javascript:void(0)" class="add">+ Add Your Own</a>\
+<form class="add-form cf">\
+    <input type="text" name="src" placeholder="Script URL" />\
+    <label><input type="checkbox" selected="selected" name="autoload" />Autoload</label>\
+    <input type="submit" value="Add" />\
+</form>';
+            this.$el.html(template);
+
+            return this;
         }
     });
 
@@ -27,10 +65,17 @@ $(function() {
 			this.model.on('show', function(show) {  this.$el.toggle(show); }, this);
 		},
 		render: function() {
-			this.$el.empty();
 
-			var label = this.make('span', {}, this.model.get('label') + ' <em>' + this.model.get('version') + '</em>');
-			this.$el.append(label);
+		    var label, text = this.model.get('label'), version = this.model.get('version');
+
+		    if (version) {
+		        text += ' <em>' + version + '</em>';
+		    }
+
+			label = this.make('span', { title: this.model.get('src') }, text);
+
+			this.$el.empty()
+			        .append(label);
 
 			if (this.model.get('isLoaded')) {
 				label.appendChild(this.make('img', {src: 'checkmark.gif'}));
@@ -48,47 +93,47 @@ $(function() {
 
 	var ScriptsView = Backbone.View.extend({
 		initialize: function() {
-		    _.bindAll(this, 'setScripts', 'loadTab');
-			chrome.tabs.getSelected(null, this.loadTab);
+		    this.options.scripts.on('add', this.add, this);
+		    this.options.scripts.on('reset', this.render, this);
 		},
-
-		loadTab: function(tab) {
-
-		    this.scripts = new Scripts([], {tabId: tab.id});
-		    this.scripts.on("change:isLoaded", function() {
-                chrome.extension.sendRequest({
-                    action: "setScripts",
-                    tab: tab,
-                    scripts: this.toJSON()
-                });
-            });
-            chrome.extension.sendRequest({
-                action: "getScripts",
-                tab: tab
-            }, this.setScripts);
-
-            // hook up the filter
-            this.filter = new Filter({
-                el: $('#filter'),
-                collection: this.scripts
-            });
+		add: function(script) {
+		    this.$el.append(new ScriptView({ model: script }).render().el);
 		},
-
-		setScripts: function(scripts) {
-		    this.scripts.reset(scripts);
-            this.render();
-        },
-
 		render: function() {
-			var el = this.el;
 			this.$el.empty();
-			this.scripts.each(function(script) {
-				el.appendChild(new ScriptView({model: script}).render().el);
-			});
+			this.options.scripts.each(this.add, this);
 			return this;
 		}
 	});
 
-	new ScriptsView({el: $('#scripts_list')});
-	console.log('loaded!');
+	// Create a Scripts collection
+    var scripts = new Scripts();
+
+    // ensure that 'loaded' changes persist in the background
+    // so that they can be restored
+    scripts.on("change:isLoaded", function() {
+        chrome.extension.sendRequest({
+            action: "setScripts",
+            tabId: this.getTabId(),
+            scripts: this.toJSON()
+        });
+    });
+
+    chrome.tabs.getSelected(null, function(tab) {
+
+        // update the tab for this collection
+        scripts.setTabId(tab.id);
+
+        // retrieve the scripts for this tab
+        chrome.extension.sendRequest({
+            action: "getScripts",
+            tabId: tab.id
+        }, function(data) {
+            scripts.reset(data);
+        });
+    });
+
+    new Filter({ el: $('#filter'), scripts: scripts });
+    new ScriptsView({ el: $('#scripts_list'), scripts: scripts });
+    new CustomScript({ el: $('#custom_script'), scripts: scripts }).render();
 });

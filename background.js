@@ -1,19 +1,29 @@
 var scriptCollections = {};
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-	var tabId = request.tab.id || sender.tab.id;
+	var tabId = request.tabId;
+
+	if (!tabId) {
+	    throw "Unable to determine requesting tab source";
+	}
+
+	if (typeof scriptCollections[tabId] == "undefined") {
+        scriptCollections[tabId] = new Scripts();
+        scriptCollections[tabId].setTabId(tabId);
+	}
+
 	if (request.action == "getScripts") {
-		if (typeof scriptCollections[tabId] == "undefined") {
-			scriptCollections[tabId] = new Scripts([], {tabId: tabId});
-			scriptCollections[tabId].on("reset", function(collection) {
-				sendResponse(collection);
-			});
+		if (scriptCollections[tabId].length == 0) {
+		    scriptCollections[tabId].on('reset', function() {
+		        sendResponse(this.toJSON());
+		        scriptCollections[tabId].off('reset');
+		    });
 			scriptCollections[tabId].fetch();
 		} else {
-			sendResponse(scriptCollections[tabId]);
+			sendResponse(scriptCollections[tabId].toJSON());
 		}
 	} else if (request.action == "setScripts") {
-		scriptCollections[tabId] = new Scripts(request.scripts, {tabId: tabId});
+        scriptCollections[tabId].reset(request.scripts);
 	}
 });
 

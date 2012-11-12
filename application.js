@@ -3,7 +3,7 @@ var Script = Backbone.Model.extend({
 
 		if (this.get('isLoaded')) return;
 
-		var model = this,
+		var self = this,
 			collection = this.collection;
 
 		// process any dependencies
@@ -12,30 +12,32 @@ var Script = Backbone.Model.extend({
 		});
 
 		// attach this script to the open tab
-		chrome.tabs.sendRequest(model.get('tabId'), {
+		chrome.tabs.sendRequest(collection.getTabId(), {
 			action: "attachScript",
-			params: loadDev ? model.attributes.src_dev : model.attributes.src
+			params: loadDev ? self.get('src_dev') : self.get('src')
 		}, function() {
-			model.set('isLoaded', true);
+			self.set('isLoaded', true);
 		});
 	}
 });
 
 var Scripts = Backbone.Collection.extend({
 	model: Script,
-	initialize: function(models, options) {
-		this.tabId = options.tabId;
-	},
 	url: 'scripts.json',
 	parse: function(response) {
 		var scripts = [], scriptData;
 		for (var id in response) {
 			scriptData = response[id];
 			scriptData.id = id;
-			scriptData.tabId = this.tabId;
 			scripts.push(scriptData);
 		}
+
 		return scripts;
+	},
+	setTabId: function(tabId) {
+	    this.tabId = tabId;
+	},
+	getTabId: function() {
+	    return this.tabId;
 	}
 });
-

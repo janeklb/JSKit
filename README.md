@@ -4,6 +4,10 @@ Load common JavaScript libraries into Chrome tabs/windows
 
 ## Changes
 
+0.2.5
+
+- loading custom scripts provided by user input URL
+
 0.2.3
 
 - added proper version numbers for Underscore.js and Backbone.js
