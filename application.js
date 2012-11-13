@@ -1,7 +1,9 @@
 var Script = Backbone.Model.extend({
 	load: function(loadDev) {
 
-		if (this.get('isLoaded')) return;
+		if (this.get('loaded')) {
+			return;
+		}
 
 		var self = this,
 			collection = this.collection;
@@ -16,8 +18,21 @@ var Script = Backbone.Model.extend({
 			action: "attachScript",
 			params: loadDev ? self.get('src_dev') : self.get('src')
 		}, function() {
-			self.set('isLoaded', true);
+			self.set('loaded', true);
 		});
+	}
+}, {
+	create: function(attrs) {
+		if (!attrs.src) {
+			throw "Unable to create a script without a source";
+		}
+		if (!attrs.label) {
+			attrs.label = attrs.src.substring(attrs.src.lastIndexOf('/') + 1);
+		}
+		if (!attrs.id) {
+			attrs.id = attrs.label + (new Date()).getTime();
+		}
+		return new Script(attrs);
 	}
 });
 
@@ -35,9 +50,9 @@ var Scripts = Backbone.Collection.extend({
 		return scripts;
 	},
 	setTabId: function(tabId) {
-	    this.tabId = tabId;
+		this.tabId = tabId;
 	},
 	getTabId: function() {
-	    return this.tabId;
+		return this.tabId;
 	}
 });

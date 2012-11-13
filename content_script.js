@@ -1,5 +1,5 @@
 var API = {
-		
+
 	_log: function() {
 		var logEntry = ["JSKit"];
 		for (var i = 0, l = arguments.length; i < l; i++)
@@ -7,9 +7,9 @@ var API = {
 
 		console.log.apply(console, logEntry);
 	},
-	
+
 	_onRequest: function(action, params, sendResponse) {
-		if (typeof action == 'string' 
+		if (typeof action == 'string'
 				&& typeof this[action] == 'function') {
 			this[action].call(this, params, sendResponse);
 		}
