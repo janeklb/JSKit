@@ -4,6 +4,10 @@ Load common JavaScript libraries into Chrome tabs/windows
 
 ## Changes
 
+0.2.6.1
+
+- bugfix: resetting loaded scripts for tabs on refresh/navigate
+
 0.2.6
 
 - reduced memory usage by keeping a single "scripts" dataset

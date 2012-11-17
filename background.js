@@ -35,6 +35,14 @@ var API = {
 	}
 };
 
+// reset tabs that get reloaded
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+	if (changeInfo.status && changeInfo.status == "loading") {
+		loadedScripts[tabId] = {};
+	}
+});
+
+// process API calls
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	if (typeof API[request.action] == 'function') {
 		API[request.action].call(API, request, sendResponse);
