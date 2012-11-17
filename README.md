@@ -4,6 +4,10 @@ Load common JavaScript libraries into Chrome tabs/windows
 
 ## Changes
 
+0.2.6.2
+
+- bugfix: ensuring a scripts dependencies fully load before the script does
+
 0.2.6.1
 
 - bugfix: resetting loaded scripts for tabs on refresh/navigate
@@ -25,7 +29,3 @@ Load common JavaScript libraries into Chrome tabs/windows
 0.2.2
 
 - properly capturing / restoring "loaded" state of libraries per tab
-
-## Todo
-
-- ensure dependency loading waits for completion before proceeding with module

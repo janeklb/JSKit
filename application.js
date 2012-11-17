@@ -1,25 +1,35 @@
 var Script = Backbone.Model.extend({
-	load: function(loadDev) {
-
-		if (this.get('loaded')) {
-			return;
-		}
+	load: function(loadDev, callback) {
 
 		var self = this,
+			depIds = this.get('dependencies') || [],
 			collection = this.collection;
 
-		// process any dependencies
-		_(this.get('dependencies')).each(function(dependency) {
-			collection.get(dependency).load();
-		});
+		callback = callback || function() {};
 
-		// attach this script to the open tab
-		chrome.tabs.sendRequest(collection.getTabId(), {
-			action: "attachScript",
-			params: loadDev ? self.get('src_dev') : self.get('src')
-		}, function() {
-			self.set('loaded', true);
-		});
+		if (this.get('loaded')) {
+			callback(this);
+		} else if (collection.getTabId()) {
+			// setup the attach script function to fire after all deps have been loaded
+			// (+1 for itself)
+			var attachScript = _.after(depIds.length + 1, function() {
+				chrome.tabs.sendRequest(collection.getTabId(), {
+					action: "attachScript",
+					params: loadDev ? self.get('src_dev') : self.get('src')
+				}, function() {
+					self.set('loaded', true);
+					callback(this);
+				});
+			});
+
+			// load all dependencies
+			_(depIds).each(function(depId) {
+				collection.get(depId).load(loadDev, attachScript);
+			});
+
+			// and attach this script
+			attachScript();
+		}
 	}
 }, {
 	create: function(attrs) {
