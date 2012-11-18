@@ -1,21 +1,23 @@
-body { font-size: 0.8em; font-family: monospace; }
+body { font-size: 0.7em; font-family: 'Julius Sans One', sans-serif; }
 
 ul { padding-left: 16px; width: 200px; }
 li { cursor: default; }
-li a { margin: 0 4px;}
 li a.load, li a.loadDev { cursor: pointer; color: #552211; }
-li img { vertical-align: middle; }
-li span { position: relative; }
-li span em { font-style: italic; }
-li span img { position: absolute; right: -16px; top: -2px; }
+li img { vertical-align: middle; margin-left: 4px; }
+li img.link { opacity: 0.5; }
+li img.link:hover { opacity: 1; }
+li img.check { width: 10px; }
+li a.script { position: relative; }
+li a.script em { font-style: italic; }
+li a.script img { position: absolute; right: -16px; top: -2px; }
 
-#filter { position: absolute; right: 4px; top: 4px; font-size: 10px; }
+#filter { position: absolute; right: 4px; top: 4px; font-size: 10px; border: 1px solid #ddd; padding: 2px 3px; }
 
 #custom_script { text-align: right; }
 #custom_script form.add-form { display: none; margin: 5px 0 0; }
 #custom_script form.add-form > input,
 #custom_script form.add-form > label { float: left; font-size: 10px; }
-#custom_script form input[type=text] { font-size: 10px; width: 106px; }
+#custom_script form input[type=text] { font-size: 10px; width: 100px; }
 #custom_script form input[type=checkbox] { vertical-align: middle; }
 #custom_script form input[type=submit] { margin-left: 4px; }
 

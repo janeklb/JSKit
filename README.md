@@ -4,6 +4,10 @@ Load common JavaScript libraries into Chrome tabs/windows
 
 ## Changes
 
+0.2.7
+
+- added links to script homepages, updated font
+
 0.2.6.2
 
 - bugfix: ensuring a scripts dependencies fully load before the script does

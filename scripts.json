@@ -1,59 +1,70 @@
 {
 	"backbone": {
 		"label": "Backbone.js",
+		"url": "http://backbonejs.org/",
 		"src": "https://raw.github.com/documentcloud/backbone/0.9.2/backbone-min.js",
 		"version": "0.9.2",
 		"dependencies": ["underscore"]
 	},
 	"jquery": {
 		"label": "jQuery",
+		"url": "http://jquery.com/",
 		"src": "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js",
 		"version": "1.7.2"
 	},
 	"jquery-ui": {
 		"label": "jQuery UI",
+		"url": "http://jqueryui.com/",
 		"src": "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js",
 		"version": "1.8.18",
 		"dependencies": ["jquery"]
 	},
 	"dojo": {
 		"label": "Dojo",
+		"url": "http://dojotoolkit.org/",
 		"src": "https://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/dojo.js",
 		"version": "1.7.2"
 	},
 	"ext-core": {
 		"label": "Ext Core",
+		"url": "http://www.sencha.com/products/extjs",
 		"src": "https://ajax.googleapis.com/ajax/libs/ext-core/3.1.0/ext-core.js",
 		"version": "3.1.0"
 	},
 	"mootools": {
 		"label": "MooTools",
+		"url": "http://mootools.net/",
 		"src": "https://ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js",
 		"version": "1.4.5"
 	},
 	"prototype": {
 		"label": "Prototype",
+		"url": "http://prototypejs.org/",
 		"src": "https://ajax.googleapis.com/ajax/libs/prototype/1.7.0.0/prototype.js",
 		"version": "1.7.0.0"
 	},
 	"scriptaculous": {
 		"label": "script.aculo.us",
+		"url": "http://script.aculo.us/",
 		"src": "https://ajax.googleapis.com/ajax/libs/scriptaculous/1.9.0/scriptaculous.js",
 		"version": "1.9.0",
 		"dependencies": ["prototype"]
 	},
 	"swfobject": {
 		"label": "SWFObject",
+		"url": "http://code.google.com/p/swfobject/",
 		"src": "https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js",
 		"version": "2.2"
 	},
 	"underscore": {
 		"label": "Underscore.js",
+		"url": "http://underscorejs.org/",
 		"src": "https://raw.github.com/documentcloud/underscore/1.4.2/underscore-min.js",
 		"version": "1.4.2"
 	},
 	"webfontloader": {
 		"label": "Web Font Loader",
+		"url": "https://developers.google.com/webfonts/docs/webfont_loader",
 		"src": "https://ajax.googleapis.com/ajax/libs/webfont/1.0.26/webfont.js",
 		"version": "1.0.26"
 	}

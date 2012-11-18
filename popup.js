@@ -69,26 +69,28 @@ $(function() {
 		},
 		render: function() {
 
-			var label,
-				text = this.model.get('label'),
+			var src_dev = this.model.get('src_dev'),
+				url = this.model.get('url'),
 				version = this.model.get('version');
 
+			this.$el.empty()
+					.append(this.model.get('label'));
+
 			if (version) {
-				text += ' <em>' + version + '</em>';
+				this.$el.append(' <em>' + version + '</em>');
 			}
 
-			label = this.make('span', { title: this.model.get('src') }, text);
-
-			this.$el.empty()
-					.append(label);
+			if (url) {
+				this.$el.append(this.make('a', {href: url, title: url, target: '_blank'}, this.make('img', {'src': 'link.png', 'class': 'link'})));
+			}
 
 			if (this.model.get('loaded')) {
-				label.appendChild(this.make('img', {src: 'checkmark.gif'}));
+				this.$el.append(this.make('img', {'src': 'checkmark.gif', 'class': 'check'}));
 			} else {
-				this.$el.append(this.make('a', {'class': 'load f-r'}, 'Load'));
+				this.$el.append(this.make('a', {'class': 'load f-r', 'title': this.model.get('src')}, 'Load'));
 
-				if (this.model.get('src_dev')) {
-					this.$el.append(this.make('a', {'class': 'loadDev f-r'}, 'Load Dev'));
+				if (src_dev) {
+					this.$el.append(this.make('a', {'class': 'loadDev f-r', 'title': src_dev}, 'Load Dev'));
 				}
 			}
 
