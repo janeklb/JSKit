@@ -4,6 +4,10 @@ Load common JavaScript libraries into Chrome tabs/windows
 
 ## Changes
 
+0.3
+
+- packaged with [xray.js](https://github.com/janeklb/xray.js/blob/master/xray.js)
+
 0.2.7
 
 - added links to script homepages, updated font
