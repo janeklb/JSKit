@@ -4,7 +4,7 @@
 		"url": "http://backbonejs.org/",
 		"src": "https://raw.github.com/documentcloud/backbone/0.9.2/backbone-min.js",
 		"version": "0.9.2",
-		"dependencies": ["underscore"]
+		"dependencies": ["underscore.js"]
 	},
 	"jquery": {
 		"label": "jQuery",
