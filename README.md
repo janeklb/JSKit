@@ -4,6 +4,10 @@ Load common JavaScript libraries into Chrome tabs/windows
 
 ## Changes
 
+0.3.2.1
+
+- added support for https sites
+
 0.3.1
 
 - updated popup font to 'Lato'
