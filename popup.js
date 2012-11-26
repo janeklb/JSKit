@@ -45,7 +45,7 @@ $(function() {
 <a href="javascript:void(0)" class="add">+ Add Your Own</a>\
 <form class="add-form cf">\
 	<input type="text" name="src" placeholder="Script URL" />\
-	<label><input type="checkbox" selected="selected" name="autoload" />Autoload</label>\
+	<label><input type="checkbox" checked="checked" name="autoload" />Autoload</label>\
 	<input type="submit" value="Add" />\
 </form>';
 			this.$el.html(template);

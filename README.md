@@ -4,9 +4,14 @@ Load common JavaScript libraries into Chrome tabs/windows
 
 ## Changes
 
+0.3.1
+
+- updated popup font to 'Lato'
+- autoloading new scripts on by default
+
 0.3
 
-- packaged with [xray.js](https://github.com/janeklb/xray.js/blob/master/xray.js)
+- packaged with [xray.js](https://github.com/janeklb/xray.js)
 
 0.2.7
 
