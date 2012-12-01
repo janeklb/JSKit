@@ -1,5 +1,5 @@
 var Script = Backbone.Model.extend({
-	load: function(loadDev, callback) {
+	load: function(callback) {
 
 		var self = this,
 			depIds = this.get('dependencies') || [],
@@ -15,7 +15,7 @@ var Script = Backbone.Model.extend({
 			var attachScript = _.after(depIds.length + 1, function() {
 				chrome.tabs.sendRequest(collection.getTabId(), {
 					action: "attachScript",
-					params: loadDev ? self.get('src_dev') : self.get('src')
+					params: self.get('src')
 				}, function() {
 					self.set('loaded', true);
 					callback(this);
@@ -24,7 +24,7 @@ var Script = Backbone.Model.extend({
 
 			// load all dependencies
 			_(depIds).each(function(depId) {
-				collection.get(depId).load(loadDev, attachScript);
+				collection.get(depId).load(attachScript);
 			});
 
 			// and attach this script

@@ -59,8 +59,7 @@ $(function() {
 		className: 'script',
 		events: {
 			// bind load buttons
-			'click a.load': function() { this.model.load(false); },
-			'click a.loadDev': function() { this.model.load(true); }
+			'click a.load': function() { this.model.load(); },
 		},
 		initialize: function() {
 			// refresh on loaded events
@@ -69,7 +68,7 @@ $(function() {
 		},
 		render: function() {
 
-			var src_dev = this.model.get('src_dev'),
+			var src = this.model.get('src'),
 				url = this.model.get('url'),
 				version = this.model.get('version');
 
@@ -85,13 +84,9 @@ $(function() {
 			}
 
 			if (this.model.get('loaded')) {
-				this.$el.append(this.make('img', {'src': 'checkmark.gif', 'class': 'check'}));
+				this.$el.append(this.make('img', {'src': 'checkmark.gif', 'class': 'check', 'title': 'loaded ' + src}));
 			} else {
-				this.$el.append(this.make('a', {'class': 'load f-r', 'title': this.model.get('src')}, 'Load'));
-
-				if (src_dev) {
-					this.$el.append(this.make('a', {'class': 'loadDev f-r', 'title': src_dev}, 'Load Dev'));
-				}
+				this.$el.append(this.make('a', {'class': 'load f-r', 'title': src}, 'Load'));
 			}
 
 			return this;
