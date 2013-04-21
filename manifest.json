@@ -1,6 +1,6 @@
 {
 	"name": "JSKit",
-	"version": "0.3.4",
+	"version": "0.3.5",
 	"description": "Load common JavaScript libraries into any page",
 	"permissions": ["tabs"],
 	"background": {

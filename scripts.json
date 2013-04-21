@@ -77,6 +77,6 @@
 	"xray.js": {
 		"label": "xray.js",
 		"url": "http://github.com/janeklb/xray.js",
-		"src": "https://raw.github.com/janeklb/xray.js/master/xray.js"
+		"src": "https://raw.github.com/janeklb/xray.js/master/lib/xray.js"
 	}
 }
