@@ -4,6 +4,11 @@ Load common JavaScript libraries into Chrome tabs/windows
 
 ## Changes
 
+0.4
+
+- loading scripts from www.cdnjs.com
+- loading files ending in .css as <link .../> tags
+
 0.3.2.1
 
 - added support for https sites
