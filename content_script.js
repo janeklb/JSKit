@@ -15,12 +15,7 @@ var API = {
 		}
 	},
 
-	attachScript: function(scriptSrc, notifyLoaded) {
-		var target = document.getElementsByTagName('head');
-		if (target.length == 0)
-			target = document.getElementsByTagName('body');
-		if (target.length == 0)
-			return;
+	buildJSTag: function(scriptSrc, notifyLoaded) {
 
 		var scriptEl = document.createElement('script');
 		scriptEl.type = 'text/javascript';
@@ -29,7 +24,29 @@ var API = {
 			API._log("loaded", scriptSrc);
 			notifyLoaded();
 		};
-		target[0].appendChild(scriptEl);
+		return scriptEl;
+	},
+
+	buildCSSTag: function(scriptSrc, notifyLoaded) {
+		var linkEl = document.createElement('link');
+		linkEl.type = 'text/css';
+		linkEl.rel = 'stylesheet';
+		linkEl.href = scriptSrc;
+		API._log("loaded", scriptSrc);
+		notifyLoaded();
+		return linkEl;
+	},
+
+	attachScript: function(scriptSrc, notifyLoaded) {
+		var target = document.getElementsByTagName('head');
+		if (target.length == 0)
+			target = document.getElementsByTagName('body');
+		if (target.length == 0)
+			return;
+
+		var isJS = scriptSrc.split('.').pop().toLowerCase() == 'js';
+		var el = this[isJS ? 'buildJSTag' : 'buildCSSTag'](scriptSrc, notifyLoaded);
+		target[0].appendChild(el);
 	}
 };
 
