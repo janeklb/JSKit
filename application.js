@@ -66,3 +66,19 @@ var Scripts = Backbone.Collection.extend({
 		return this.tabId;
 	}
 });
+
+var CDNJSScripts = Scripts.extend({
+  url: 'http://api.cdnjs.com/libraries?fields=version,description,homepage',
+  parse: function(response) {
+    return _.map(response.results, function(data) {
+        return {
+            id: data.name,
+            src: data.latest.replace('http:', ''),
+            label: data.name,
+            url: data.homepage,
+            description: data.description,
+            version: data.version
+        };
+    });
+  }
+});

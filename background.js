@@ -2,7 +2,7 @@
 // storing 'loaded' state of scripts per tab
 var loadedScripts = {};
 // storing a database of all available scripts
-var scriptsDB = new Scripts();
+var scriptsDB = new CDNJSScripts();
 scriptsDB.fetch();
 
 function getLoadedScripts(context) {

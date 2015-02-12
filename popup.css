@@ -1,8 +1,8 @@
-body { font-size: 0.7em; }
+body { font-size: 0.8em; }
 body, input { font-family: 'Lato', sans-serif; }
 
-ul { padding-left: 16px; width: 200px; }
-li { cursor: default; }
+ul { margin: 0; padding: 0; width: 240px; }
+li { cursor: default; margin-bottom: 3px; }
 li a.load { cursor: pointer; color: #552211; }
 li img { vertical-align: middle; margin-left: 4px; }
 li img.link { opacity: 0.5; }
@@ -11,6 +11,7 @@ li img.check { width: 10px; }
 li a.script { position: relative; }
 li a.script em { font-style: italic; }
 li a.script img { position: absolute; right: -16px; top: -2px; }
+p.cdnjs { text-align:center; font-size:0.9em; }
 
 #filter { position: absolute; right: 4px; top: 4px; font-size: 10px; border: 1px solid #ddd; padding: 2px 3px; }
 

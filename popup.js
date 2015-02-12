@@ -3,9 +3,17 @@ $(function() {
 	var Filter = Backbone.View.extend({
 		events: {
 			"keyup": function() {
-				var val = this.$el.val().toLowerCase();
+
+				var val = this.$el.val().toLowerCase(),
+						exact = val.indexOf('!', val.length - 1) !== -1,
+						exactMatch = val.substring(0, val.length - 1);
+
 				this.options.scripts.each(function(model) {
-					var show = val == '' || model.get('label').toLowerCase().indexOf(val) != -1;
+
+					var show = val == '' || (exact ?
+							model.get('label').toLowerCase() == exactMatch :
+							model.get('label').toLowerCase().indexOf(val) != -1);
+
 					model.trigger('show', show);
 				});
 			}
@@ -70,10 +78,15 @@ $(function() {
 
 			var src = this.model.get('src'),
 				url = this.model.get('url'),
+				desc = this.model.get('description'),
 				version = this.model.get('version');
 
 			this.$el.empty()
 					.append(this.model.get('label'));
+
+			if (desc) {
+				this.$el.attr('title', desc);
+			}
 
 			if (version) {
 				this.$el.append(' <em>' + version + '</em>');
@@ -109,7 +122,7 @@ $(function() {
 	});
 
 	// Create a Scripts collection
-	var scripts = new Scripts();
+	var scripts = new CDNJSScripts();
 	// ensure that 'loaded' changes persist in the background
 	// so that they can be restored
 	scripts.on("change:loaded", function(script, loaded) {
