@@ -15,7 +15,7 @@ p.cdnjs { text-align:center; font-size:0.9em; }
 
 #filter { position: absolute; right: 4px; top: 4px; font-size: 10px; border: 1px solid #ddd; padding: 2px 3px; }
 
-#custom_script { text-align: right; }
+#custom_script { text-align: right; margin-bottom: 6px; }
 #custom_script form.add-form { display: none; margin: 5px 0 0; }
 #custom_script form.add-form > input,
 #custom_script form.add-form > label { float: left; font-size: 10px; }

@@ -17,6 +17,9 @@ $(function() {
 					model.trigger('show', show);
 				});
 			}
+		},
+		initialize: function() {
+			this.$el.focus();
 		}
 	});
 
