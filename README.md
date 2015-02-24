@@ -1,4 +1,3 @@
 # JSKit
 
-Load common JavaScript libraries into Chrome tabs/windows
-
+Load JavaScript (and CSS) libraries into any page/tab, via cdnjs.com or custom url

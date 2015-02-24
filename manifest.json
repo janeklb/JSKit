@@ -1,7 +1,7 @@
 {
 	"name": "JSKit",
-	"version": "0.4.1",
-	"description": "Load common JavaScript libraries into any page",
+	"version": "0.4.2",
+	"description": "Load JavaScript (and CSS) libraries into any page/tab, via cdnjs.com or custom url",
 	"permissions": ["tabs"],
 	"background": {
 		"scripts": ["vendors/jquery.min.js", "vendors/underscore-min.js", "vendors/backbone-min.js", "application.js", "background.js"]
