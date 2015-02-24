@@ -68,25 +68,25 @@ var Scripts = Backbone.Collection.extend({
 });
 
 var CDNJSScripts = Scripts.extend({
-  url: 'http://api.cdnjs.com/libraries?fields=version,description,homepage',
-  parse: function(response) {
+	url: 'http://api.cdnjs.com/libraries?fields=version,description,homepage',
+	parse: function(response) {
 
-    // add in xray.js
-    response.results.push({
-      name: 'xray.js',
-      latest: 'https://cdn.rawgit.com/janeklb/xray.js/master/lib/xray.js',
-      homepage: 'http://github.com/janeklb/xray.js'
-    });
+		// add in xray.js
+		response.results.push({
+			name: 'xray.js',
+			latest: 'https://cdn.rawgit.com/janeklb/xray.js/master/lib/xray.js',
+			homepage: 'http://github.com/janeklb/xray.js'
+		});
 
-    return _.map(response.results, function(data) {
-        return {
-            id: data.name,
-            src: data.latest.replace('http:', ''),
-            label: data.name,
-            url: data.homepage,
-            description: data.description,
-            version: data.version
-        };
-    });
-  }
+		return _.map(response.results, function(data) {
+			return {
+				id: data.name,
+				src: data.latest.replace('http:', ''),
+				label: data.name,
+				url: data.homepage,
+				description: data.description,
+				version: data.version
+			};
+		});
+	}
 });
