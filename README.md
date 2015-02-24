@@ -4,6 +4,10 @@ Load common JavaScript libraries into Chrome tabs/windows
 
 ## Changes
 
+0.4.1
+
+- added xray.js (https://github.com/janeklb/xray.js)
+
 0.4
 
 - loading scripts from www.cdnjs.com

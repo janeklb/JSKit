@@ -70,6 +70,14 @@ var Scripts = Backbone.Collection.extend({
 var CDNJSScripts = Scripts.extend({
   url: 'http://api.cdnjs.com/libraries?fields=version,description,homepage',
   parse: function(response) {
+
+    // add in xray.js
+    response.results.push({
+      name: 'xray.js',
+      latest: 'https://cdn.rawgit.com/janeklb/xray.js/master/lib/xray.js',
+      homepage: 'http://github.com/janeklb/xray.js'
+    });
+
     return _.map(response.results, function(data) {
         return {
             id: data.name,
